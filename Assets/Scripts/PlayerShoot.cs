@@ -30,7 +30,7 @@ public class PlayerShoot : MonoBehaviour
         Vector2 direction = (mouseWorldPos - transform.position).normalized;
 
         GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-        bullet.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
+        bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * bulletSpeed;
         if (bullet != null) { Destroy(bullet, bulletLifeTime); }
     }
 }
