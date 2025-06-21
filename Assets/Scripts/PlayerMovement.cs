@@ -73,8 +73,6 @@ public class PlayerMovement : MonoBehaviour {
         }
         rb.MovePosition(targetPos);
 
-        rb.MovePosition(rb.position + Vector2.right * 5f);
-
         isDashing = false;
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
