@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour {
     public GameObject Player;
     public GameObject Enemy;
     public GameObject BonusHP;
+    public GameObject BossEnemy;
 
     // Enemy Spawn Variables
     public int enemiesPerWave = 10;
@@ -53,10 +54,10 @@ public class GameManager : MonoBehaviour {
         float spawnBuffer = Random.Range(0.5f, 3f);
 
         Vector3 spawnPos = Vector3.zero;
-        int side = Random.Range(0, 4); // 0=üst, 1=alt, 2=sað, 3=sol
+        int side = Random.Range(0, 4); // 0=Ã¼st, 1=alt, 2=saÄŸ, 3=sol
 
         switch (side) {
-            case 0: // ÜST
+            case 0: // ÃœST
                 spawnPos = new Vector3(
                     Random.Range(camMin.x, camMax.x),
                     camMax.y + spawnBuffer,
@@ -68,7 +69,7 @@ public class GameManager : MonoBehaviour {
                     camMin.y - spawnBuffer,
                     0);
                 break;
-            case 2: // SAÐ
+            case 2: // SAÄž
                 spawnPos = new Vector3(
                     camMax.x + spawnBuffer,
                     Random.Range(camMin.y, camMax.y),
@@ -85,13 +86,24 @@ public class GameManager : MonoBehaviour {
         Instantiate(Enemy, spawnPos, Quaternion.identity);
     }
 
+    void SpawnBossEnemy() {
+        if (Player == null) return;
+        Vector3 camMin = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 camMax = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0));
+        Vector3 spawnPos = new Vector3(Random.Range(camMin.x, camMax.x), camMax.y + 2f, 0);
+        Instantiate(BossEnemy, spawnPos, Quaternion.identity);
+    }
+
     void StartNewWave() {
         currentWave++;
         int totalEnemies = enemiesPerWave + currentWave * 2;
 
-        Debug.Log($"* Dalga {currentWave} baþlýyor! ({totalEnemies} düþman)");
+        Debug.Log($"* Dalga {currentWave} baÅŸlÄ±yor! ({totalEnemies} dÃ¼ÅŸman)");
         waveText.text = "Wave " + currentWave;
         StartCoroutine(SpawnEnemiesWithDelay(totalEnemies));
+        if (currentWave % 5 == 0) {
+            SpawnBossEnemy();
+        }
     }
 
     IEnumerator SpawnEnemiesWithDelay(int count) {
