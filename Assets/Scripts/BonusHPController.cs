@@ -18,7 +18,7 @@ public class BonusHPController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate() {
-        Destroy(gameObject,Random.Range(hpMinLifeTime,hpMaxLifeTime));
+    private void Start() {
+        Destroy(gameObject, Random.Range(hpMinLifeTime, hpMaxLifeTime));
     }
 }
